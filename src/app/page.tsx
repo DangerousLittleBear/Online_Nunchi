@@ -4,9 +4,32 @@ import { useState } from 'react';
 import Image from 'next/image';
 import BGMController from '@/components/BGMController';
 import LoginModal from '@/components/LoginModal';
+import SignupModal from '@/components/SignupModal';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+  const router = useRouter();
+
+  const handleCloseModals = () => {
+    setIsLoginModalOpen(false);
+    setIsSignupModalOpen(false);
+  };
+
+  const switchToSignup = () => {
+    setIsLoginModalOpen(false);
+    setIsSignupModalOpen(true);
+  };
+
+  const switchToLogin = () => {
+    setIsSignupModalOpen(false);
+    setIsLoginModalOpen(true);
+  };
+
+  const handleEscapeGameClick = () => {
+    router.push('/escape');
+  };
 
   return (
     <main className="min-h-screen bg-white flex flex-col items-center justify-center p-4 relative">
@@ -24,7 +47,10 @@ export default function Home() {
       </div>
       
       <div className="flex flex-wrap justify-center gap-4 w-full max-w-5xl px-4">
-        <button className="flex-1 min-w-[200px] py-4 px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xl font-semibold">
+        <button 
+          onClick={handleEscapeGameClick}
+          className="flex-1 min-w-[200px] py-4 px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xl font-semibold"
+        >
           방탈출 게임
         </button>
         
@@ -44,7 +70,14 @@ export default function Home() {
 
       <LoginModal 
         isOpen={isLoginModalOpen} 
-        onClose={() => setIsLoginModalOpen(false)} 
+        onClose={handleCloseModals}
+        onSwitchToSignup={switchToSignup}
+      />
+
+      <SignupModal
+        isOpen={isSignupModalOpen}
+        onClose={handleCloseModals}
+        onSwitchToLogin={switchToLogin}
       />
     </main>
   );

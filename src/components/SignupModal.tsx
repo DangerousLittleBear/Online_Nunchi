@@ -3,20 +3,26 @@
 import { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 
-interface LoginModalProps {
+interface SignupModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSwitchToSignup: () => void;
+  onSwitchToLogin: () => void;
 }
 
-export default function LoginModal({ isOpen, onClose, onSwitchToSignup }: LoginModalProps) {
+export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: SignupModalProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [nickname, setNickname] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: 로그인 로직 구현
-    console.log('Login attempt with:', { email, password });
+    if (password !== confirmPassword) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+    // TODO: 회원가입 로직 구현
+    console.log('Signup attempt with:', { email, password, nickname });
   };
 
   if (!isOpen) return null;
@@ -31,7 +37,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignup }: LoginM
           <IoClose size={24} />
         </button>
         
-        <h2 className="text-2xl font-bold mb-6 text-center">로그인</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">회원가입</h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -43,6 +49,20 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignup }: LoginM
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              required
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="nickname" className="block text-sm font-medium text-gray-700 mb-1">
+              닉네임
+            </label>
+            <input
+              type="text"
+              id="nickname"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             />
@@ -62,16 +82,34 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignup }: LoginM
             />
           </div>
           
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+              비밀번호 확인
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              required
+            />
+          </div>
+          
           <button
             type="submit"
             className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
           >
-            로그인
+            회원가입
           </button>
         </form>
         
         <div className="mt-4 text-center text-sm text-gray-600">
-          <p>계정이 없으신가요? <button onClick={onSwitchToSignup} className="text-blue-600 hover:underline">회원가입</button></p>
+          <p>이미 계정이 있으신가요? <button onClick={onSwitchToLogin} className="text-blue-600 hover:underline">로그인</button></p>
+        </div>
+
+        <div className="mt-4 text-center text-sm text-gray-600">
+          <p>계정을 잃어버리셨다구요? 아쉽게도 다시 찾는 기능은 없습니다..</p>
         </div>
       </div>
     </div>
