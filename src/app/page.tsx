@@ -1,22 +1,21 @@
 'use client';
 
-import { useState } from 'react';
-import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
-import logo from '@/public/images/logo.png';
 import Image from 'next/image';
+import BGMController from '@/components/BGMController';
 
 export default function Home() {
-  const [isMuted, setIsMuted] = useState(false);
-
   return (
-    <main className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
-      <div className="w-96 h-96 relative mb-8">
+    <main className="min-h-screen bg-white flex flex-col items-center justify-center p-4 relative">
+      <div className="absolute top-2 right-4 text-sm text-gray-400">
+        @madeBy : DangerousLittleBear
+      </div>
+      
+      <div className="w-150 h-150 relative mb-8">
         <Image
-          src={logo}
+          src="/images/logo.png"
           alt="Online Nunchi Logo"
           fill
-          style={{ objectFit: 'contain' }}
-          priority
+          style={{ objectFit: "cover" }}
         />
       </div>
       
@@ -33,22 +32,7 @@ export default function Home() {
           로그인
         </button>
 
-        <button 
-          onClick={() => setIsMuted(!isMuted)}
-          className="flex-1 min-w-[200px] py-4 px-6 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-xl font-semibold flex items-center justify-center gap-2"
-        >
-          {isMuted ? (
-            <>
-              <FaVolumeMute />
-              <span>BGM 켜기</span>
-            </>
-          ) : (
-            <>
-              <FaVolumeUp />
-              <span>BGM 끄기</span>
-            </>
-          )}
-        </button>
+        <BGMController />
       </div>
     </main>
   );
