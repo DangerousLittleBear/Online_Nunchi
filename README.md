@@ -1,36 +1,20 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 온라인 눈치게임
 
-## Getting Started
+온라인 눈치게임 입니다. 
+실시간으로 매칭되는 랜덤한 인원들과 함께 두가지 테마의 게임중 선택하여 플레이합니다.
 
-First, run the development server:
+## 테마 1 : 얼굴도 모르는 사람들이랑 방탈출하기
+총 6가지의 방이 준비되어 있습니다. 
+순발력과 눈치만으로 방을 통과하세요
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+여러분이 방금 클릭으로 움직이게한 캐릭터는 다른사람들과 실시간으로 공유됩니다.
+맵 밖으로 떨어지거나 벽에 부딪히면 아쉽게도 처음부터 시작합니다... 마지막으로 키입력을 한 사람은 누굴까요?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+테마 2 : 최대 20 대 20으로 단체 오목대전하기
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+때론 혼자하는게 더 나을 수 있다는 생각이 들지도 모르겠습니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+프론트엔드: Next.js 
 
-## Learn More
+백엔드: 스프링부트
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
