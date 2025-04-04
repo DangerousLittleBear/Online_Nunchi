@@ -5,55 +5,44 @@ import GameBoard from '@/components/escape/GameBoard';
 import DirectionControls from '@/components/escape/DirectionControls';
 
 export default function EscapeGame() {
-  const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 0 }); // 0-based index
-  const [players, setPlayers] = useState<Array<{ id: string, x: number, y: number }>>([]);
+  const [characterPosition, setCharacterPosition] = useState({ x: 0, y: 0 });
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [playerCount, setPlayerCount] = useState(0);
 
   useEffect(() => {
-    // WebSocket 연결
-    const ws = new WebSocket('ws://localhost:3001'); // 서버 주소는 실제 서버 주소로 변경 필요
+    const ws = new WebSocket('ws://localhost:8080/ws');
 
     ws.onopen = () => {
-      console.log('WebSocket 연결됨');
+      console.log('WebSocket Connected');
       setIsConnected(true);
     };
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      
-      if (data.type === 'playerPosition') {
-        setPlayerPosition({ x: data.x, y: data.y });
-      } else if (data.type === 'players') {
-        setPlayers(data.players);
-        setPlayerCount(data.players.length);
+      if (data.type === 'POSITION_UPDATE') {
+        setCharacterPosition(data.position);
+      } else if (data.type === 'PLAYER_COUNT') {
+        setPlayerCount(data.count);
       }
     };
 
     ws.onclose = () => {
-      console.log('WebSocket 연결 끊김');
+      console.log('WebSocket Disconnected');
       setIsConnected(false);
-    };
-
-    ws.onerror = (error) => {
-      console.error('WebSocket 에러:', error);
     };
 
     setSocket(ws);
 
-    // 컴포넌트 언마운트 시 WebSocket 연결 종료
     return () => {
-      if (ws) {
-        ws.close();
-      }
+      ws.close();
     };
   }, []);
 
   const handleMove = (direction: 'up' | 'down' | 'left' | 'right') => {
     if (!socket || !isConnected) return;
 
-    const newPosition = { ...playerPosition };
+    const newPosition = { ...characterPosition };
     
     switch (direction) {
       case 'up':
@@ -70,11 +59,10 @@ export default function EscapeGame() {
         break;
     }
 
-    // 서버에 이동 정보 전송
+    // 서버에 새로운 위치 전송
     socket.send(JSON.stringify({
-      type: 'move',
-      x: newPosition.x,
-      y: newPosition.y
+      type: 'MOVE',
+      position: newPosition
     }));
   };
 
@@ -88,8 +76,7 @@ export default function EscapeGame() {
       
       <div className="mb-12">
         <GameBoard 
-          playerPosition={playerPosition} 
-          players={players}
+          characterPosition={characterPosition}
           size={10}
         />
       </div>

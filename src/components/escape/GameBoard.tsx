@@ -4,33 +4,32 @@ import React from 'react';
 import Image from 'next/image';
 
 interface GameBoardProps {
-  playerPosition: { x: number; y: number };
-  totalPlayers: number;
+  characterPosition: { x: number; y: number };
+  size: number;
 }
 
-export default function GameBoard({ playerPosition, totalPlayers }: GameBoardProps) {
-  const gridSize = 10;
-  const grid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(null));
+export default function GameBoard({ characterPosition, size }: GameBoardProps) {
+  const grid = Array(size).fill(null).map(() => Array(size).fill(null));
 
   return (
     <div className="p-4">
-      <div className="grid grid-cols-10 gap-2">
+      <div className={`grid grid-cols-${size} gap-2 w-fit`}>
         {grid.map((row, y) =>
           row.map((_, x) => (
             <div
               key={`${x}-${y}`}
-              className="w-16 h-16 border-2 border-gray-300 rounded-lg flex items-center justify-center"
+              className="w-16 h-16 border-2 border-gray-300 rounded-lg flex items-center justify-center relative"
             >
-              {playerPosition.x === x && playerPosition.y === y ? (
+              {characterPosition.x === x && characterPosition.y === y && (
                 <Image
                   src="/images/character.png"
-                  alt="Player"
+                  alt="Character"
                   width={45}
                   height={45}
                   priority
                   className="object-contain"
                 />
-              ) : null}
+              )}
             </div>
           ))
         )}

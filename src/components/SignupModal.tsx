@@ -10,7 +10,7 @@ interface SignupModalProps {
 }
 
 export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: SignupModalProps) {
-  const [email, setEmail] = useState('');
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [nickname, setNickname] = useState('');
@@ -22,7 +22,7 @@ export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: Signup
       return;
     }
     // TODO: 회원가입 로직 구현
-    console.log('Signup attempt with:', { email, password, nickname });
+    console.log('Signup attempt with:', { id, password, nickname });
   };
 
   if (!isOpen) return null;
@@ -37,18 +37,18 @@ export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: Signup
           <IoClose size={24} />
         </button>
         
-        <h2 className="text-2xl font-bold mb-6 text-center">회원가입</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-blue-400">회원가입</h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              이메일
+              아이디
             </label>
             <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              id="id"
+              value={id}
+              onChange={(e) => setId(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             />
