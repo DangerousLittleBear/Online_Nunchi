@@ -20,10 +20,15 @@ export default function EscapeGame() {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.type === 'POSITION_UPDATE') {
-        setCharacterPosition(data.position);
-      } else if (data.type === 'PLAYER_COUNT') {
-        setPlayerCount(data.count);
+      const type = data.type;
+      const position = data.position;
+      console.log(type);
+      console.log(position);
+      setPlayerCount(data.playerCount);
+
+      if (type === 'POSITION_UPDATE') {
+        setCharacterPosition(position);
+        console.log("position update");
       }
     };
 
@@ -42,27 +47,35 @@ export default function EscapeGame() {
   const handleMove = (direction: 'up' | 'down' | 'left' | 'right') => {
     if (!socket || !isConnected) return;
 
-    const newPosition = { ...characterPosition };
-    
+    let xDirection = 0;
+    let yDirection = 0;
     switch (direction) {
       case 'up':
-        if (newPosition.y > 0) newPosition.y--;
+        xDirection = 0;
+        yDirection = -1;
         break;
       case 'down':
-        if (newPosition.y < 9) newPosition.y++;
+        xDirection = 0;
+        yDirection = 1;
         break;
       case 'left':
-        if (newPosition.x > 0) newPosition.x--;
+        xDirection = -1;
+        yDirection = 0;
         break;
       case 'right':
-        if (newPosition.x < 9) newPosition.x++;
+        xDirection = 1;
+        yDirection = 0;
         break;
     }
 
     // 서버에 새로운 위치 전송
     socket.send(JSON.stringify({
       type: 'MOVE',
-      position: newPosition
+      position: 
+      {
+        x: xDirection,
+        y: yDirection
+      }
     }));
   };
 
