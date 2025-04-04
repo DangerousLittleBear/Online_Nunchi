@@ -6,6 +6,7 @@ import DirectionControls from '@/components/escape/DirectionControls';
 
 export default function EscapeGame() {
   const [characterPosition, setCharacterPosition] = useState({ x: 0, y: 0 });
+  const [obstacles, setObstacles] = useState<Array<{ x: number; y: number }>>([]);
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [playerCount, setPlayerCount] = useState(0);
@@ -22,13 +23,15 @@ export default function EscapeGame() {
       const data = JSON.parse(event.data);
       const type = data.type;
       const position = data.position;
-      console.log(type);
-      console.log(position);
-      setPlayerCount(data.playerCount);
+      const obstacles = data.obstacles;
 
+      setPlayerCount(data.playerCount);
       if (type === 'POSITION_UPDATE') {
         setCharacterPosition(position);
         console.log("position update");
+      }
+      if (obstacles) {
+        setObstacles(obstacles);
       }
     };
 
@@ -81,16 +84,26 @@ export default function EscapeGame() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
-      <div className="mb-6 text-center">
-        <h1 className="text-3xl font-bold mb-2">방탈출 게임</h1>
-        <p className="text-gray-600 text-lg">현재 접속자: {playerCount}/30</p>
-        <p className="text-gray-600 text-lg">연결 상태: {isConnected ? '연결됨' : '연결 끊김'}</p>
+      <div className="mb-6 w-full">
+        <div className="max-w-xs mx-auto flex justify-between items-center">
+          <h1 className="text-3xl font-bold">방탈출 게임</h1>
+          <div className="flex flex-col items-end gap-1">
+            <p className="text-gray-600 text-lg">현재 접속자: {playerCount}/5</p>
+            <p className="text-gray-600 text-lg">
+              연결 상태:{" "}
+              <span className={isConnected ? "text-green-500" : "text-red-500"}>
+                {isConnected ? "연결됨" : "연결 끊김"}
+              </span>
+            </p>
+          </div>
+        </div>
       </div>
       
       <div className="mb-12">
         <GameBoard 
           characterPosition={characterPosition}
-          size={10}
+          size={{ width: 30, height: 20 }}
+          obstacles={obstacles}
         />
       </div>
       
