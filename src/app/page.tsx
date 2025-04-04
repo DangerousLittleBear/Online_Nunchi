@@ -54,7 +54,9 @@ export default function Home() {
           방탈출 게임
         </button>
         
-        <button className="flex-1 min-w-[200px] py-4 px-6 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-xl font-semibold">
+        <button  
+          onClick={() => alert("준비중입니다.")}
+          className="flex-1 min-w-[200px] py-4 px-6 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-xl font-semibold">
           다대다 오목 게임
         </button>
 
