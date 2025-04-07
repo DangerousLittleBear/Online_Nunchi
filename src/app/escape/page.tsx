@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import GameBoard from '@/components/escape/GameBoard';
 import DirectionControls from '@/components/escape/DirectionControls';
 import GameInstructions from '@/components/escape/GameInstructions';
+import GameClearModal from '@/components/escape/GameClearModal';
 
 export default function EscapeGame() {
   const [characterPosition, setCharacterPosition] = useState({ x: 0, y: 0 });
@@ -11,7 +12,7 @@ export default function EscapeGame() {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [playerCount, setPlayerCount] = useState(0);
-
+  const [showClearModal, setShowClearModal] = useState(false);
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8080/ws');
 
@@ -26,13 +27,23 @@ export default function EscapeGame() {
       const position = data.position;
       const obstacles = data.obstacles;
       
-      console.log(obstacles); 
-      
-      setPlayerCount(data.playerCount);
+      if (type === 'JOIN') {
+        setPlayerCount(data.playerCount);
+      }
+
+      if (type === 'LEAVE') {
+        setPlayerCount(data.playerCount);
+      }
+
       if (type === 'POSITION_UPDATE') {
         setCharacterPosition(position);
         console.log("position update");
       }
+
+      if (type === 'CLEAR') {
+        setShowClearModal(true);
+      }
+
       if (obstacles) {
         setObstacles(obstacles);
       }
@@ -111,6 +122,11 @@ export default function EscapeGame() {
         
         <DirectionControls onMove={handleMove} />
       </div>
+
+      <GameClearModal 
+        isOpen={showClearModal}
+        onClose={() => setShowClearModal(false)}
+      />
     </div>
   );
 } 
