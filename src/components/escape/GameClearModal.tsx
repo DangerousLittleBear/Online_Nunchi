@@ -67,7 +67,7 @@ export default function GameClearModal({ isOpen, onClose }: GameClearModalProps)
               onClick={onClose}
               className="w-full py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
             >
-              계속하기
+              랭킹 확인하기.
             </button>
           </div>
         </div>

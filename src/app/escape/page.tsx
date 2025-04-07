@@ -106,6 +106,7 @@ export default function EscapeGame() {
 
       {/* 메인 게임 영역 */}
       <div className="flex-1 flex flex-col items-center justify-center p-4">
+        {isGameStarted && (
         <div className="mb-1 w-full">
           <div className="max-w-3xl mx-auto flex justify-between items-center">
             <h1 className="text-3xl font-bold">방탈출 게임</h1>
@@ -115,6 +116,7 @@ export default function EscapeGame() {
             </div>
           </div>
         </div>
+        )}
         
         <div className="mb-1 w-full px-4">
           {isGameStarted ? (
