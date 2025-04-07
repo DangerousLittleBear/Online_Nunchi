@@ -56,8 +56,8 @@ export default function GameInstructions() {
 
       {/* 상세 규칙 모달 */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white/90 backdrop-blur-md rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto shadow-xl">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-black">상세 게임 규칙</h2>
               <button

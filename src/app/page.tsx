@@ -5,12 +5,14 @@ import Image from 'next/image';
 import BGMController from '@/components/BGMController';
 import LoginModal from '@/components/LoginModal';
 import SignupModal from '@/components/SignupModal';
+import UsernameModal from '@/components/UsernameModal';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const [showFullscreenAlert, setShowFullscreenAlert] = useState(false);
+  const [showUsernameModal, setShowUsernameModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -57,6 +59,17 @@ export default function Home() {
   };
 
   const handleEscapeGameClick = () => {
+    const username = localStorage.getItem('username');
+    if (!username) {
+      setShowUsernameModal(true);
+    } else {
+      router.push('/escape');
+    }
+  };
+
+  const handleUsernameSubmit = (username: string) => {
+    localStorage.setItem('username', username);
+    setShowUsernameModal(false);
     router.push('/escape');
   };
 
@@ -130,6 +143,11 @@ export default function Home() {
         isOpen={isSignupModalOpen}
         onClose={handleCloseModals}
         onSwitchToLogin={switchToLogin}
+      />
+
+      <UsernameModal
+        isOpen={showUsernameModal}
+        onSubmit={handleUsernameSubmit}
       />
     </main>
   );
