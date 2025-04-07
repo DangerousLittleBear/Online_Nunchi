@@ -14,7 +14,13 @@ export default function EscapeGame() {
   const [playerCount, setPlayerCount] = useState(0);
   const [showClearModal, setShowClearModal] = useState(false);
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8080/ws');
+    const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
+    if (!wsUrl) {
+      console.error('WebSocket URL is not defined');
+      return;
+    }
+
+    const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
       console.log('WebSocket Connected');
