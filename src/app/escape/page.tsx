@@ -5,6 +5,7 @@ import GameBoard from '@/components/escape/GameBoard';
 import DirectionControls from '@/components/escape/DirectionControls';
 import GameInstructions from '@/components/escape/GameInstructions';
 import GameClearModal from '@/components/escape/GameClearModal';
+import WaitingRoom from '@/components/escape/WaitingRoom';
 
 export default function EscapeGame() {
   const [characterPosition, setCharacterPosition] = useState({ x: 0, y: 0 });
@@ -13,6 +14,8 @@ export default function EscapeGame() {
   const [isConnected, setIsConnected] = useState(false);
   const [playerCount, setPlayerCount] = useState(0);
   const [showClearModal, setShowClearModal] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(false);
+
   useEffect(() => {
     const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
     if (!wsUrl) {
@@ -33,25 +36,22 @@ export default function EscapeGame() {
       const position = data.position;
       const obstacles = data.obstacles;
       
-      if (type === 'JOIN') {
-        setPlayerCount(data.playerCount);
-      }
+      setPlayerCount(data.playerCount || 0);
 
-      if (type === 'LEAVE') {
-        setPlayerCount(data.playerCount);
+      if (type === 'GAME_START') {
+        setIsGameStarted(true);
       }
-
-      if (type === 'POSITION_UPDATE') {
+      
+      if (type === 'POSITION_UPDATE' && isGameStarted) {
         setCharacterPosition(position);
-        console.log("position update");
       }
-
-      if (type === 'CLEAR') {
-        setShowClearModal(true);
-      }
-
+      
       if (obstacles) {
         setObstacles(obstacles);
+      }
+      
+      if (type === 'CLEAR') {
+        setShowClearModal(true);
       }
     };
 
@@ -65,10 +65,10 @@ export default function EscapeGame() {
     return () => {
       ws.close();
     };
-  }, []);
+  }, [isGameStarted]);
 
   const handleMove = (direction: 'up' | 'down' | 'left' | 'right') => {
-    if (!socket || !isConnected) return;
+    if (!socket || !isConnected || !isGameStarted) return;
 
     let xDirection = 0;
     let yDirection = 0;
@@ -91,11 +91,9 @@ export default function EscapeGame() {
         break;
     }
 
-    // 서버에 새로운 위치 전송
     socket.send(JSON.stringify({
       type: 'MOVE',
-      position: 
-      {
+      position: {
         x: xDirection,
         y: yDirection
       }
@@ -119,14 +117,22 @@ export default function EscapeGame() {
         </div>
         
         <div className="mb-1 w-full px-4">
-          <GameBoard 
-            characterPosition={characterPosition}
-            size={{ width: 31, height: 21 }}
-            obstacles={obstacles}
-          />
+          {isGameStarted ? (
+            <>
+              <GameBoard 
+                characterPosition={characterPosition}
+                size={{ width: 31, height: 21 }}
+                obstacles={obstacles}
+              />
+              <DirectionControls onMove={handleMove} />
+            </>
+          ) : (
+            <WaitingRoom 
+              playerCount={playerCount}
+              isConnected={isConnected}
+            />
+          )}
         </div>
-        
-        <DirectionControls onMove={handleMove} />
       </div>
 
       <GameClearModal 
