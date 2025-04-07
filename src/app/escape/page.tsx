@@ -24,7 +24,9 @@ export default function EscapeGame() {
       const type = data.type;
       const position = data.position;
       const obstacles = data.obstacles;
-
+      
+      console.log(obstacles); 
+      
       setPlayerCount(data.playerCount);
       if (type === 'POSITION_UPDATE') {
         setCharacterPosition(position);
@@ -83,31 +85,59 @@ export default function EscapeGame() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
-      <div className="mb-6 w-full">
-        <div className="max-w-xs mx-auto flex justify-between items-center">
-          <h1 className="text-3xl font-bold">방탈출 게임</h1>
-          <div className="flex flex-col items-end gap-1">
-            <p className="text-gray-600 text-lg">현재 접속자: {playerCount}/5</p>
-            <p className="text-gray-600 text-lg">
-              연결 상태:{" "}
-              <span className={isConnected ? "text-green-500" : "text-red-500"}>
-                {isConnected ? "연결됨" : "연결 끊김"}
-              </span>
-            </p>
+    <div className="min-h-screen bg-white flex">
+      {/* 사이드바 */}
+      <div className="w-80 bg-gray-50 p-6 border-r border-gray-200 h-screen">
+        <h2 className="text-2xl font-bold mb-4">게임 설명</h2>
+        <div className="space-y-4">
+          <div>
+            <h3 className="text-lg font-semibold mb-2">게임 목표</h3>
+            <p className="text-gray-600">방을 탈출하세요! 출구를 찾아 탈출하는 것이 목표입니다.</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold mb-2">조작 방법</h3>
+            <ul className="list-disc list-inside text-gray-600 space-y-1">
+              <li>↑ : 위로 이동</li>
+              <li>↓ : 아래로 이동</li>
+              <li>← : 왼쪽으로 이동</li>
+              <li>→ : 오른쪽으로 이동</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold mb-2">게임 규칙</h3>
+            <ul className="list-disc list-inside text-gray-600 space-y-1">
+              <li>장애물을 피해서 이동하세요</li>
+              <li>다른 플레이어와 협력하세요</li>
+              <li>출구(문)에 도달하면 게임 클리어!</li>
+            </ul>
           </div>
         </div>
       </div>
-      
-      <div className="mb-12">
-        <GameBoard 
-          characterPosition={characterPosition}
-          size={{ width: 30, height: 20 }}
-          obstacles={obstacles}
-        />
+
+      {/* 메인 게임 영역 */}
+      <div className="flex-1 flex flex-col items-center justify-center p-4">
+        <div className="mb-1 w-full">
+          <div className="max-w-3xl mx-auto flex justify-between items-center">
+            <h1 className="text-3xl font-bold">방탈출 게임</h1>
+            <div className="flex flex-col items-end gap-1">
+              <p className="text-gray-600 text-lg">현재 접속자: {playerCount}/5</p>
+              <p className="text-gray-600 text-lg">연결 상태: {isConnected ? '연결됨' : '연결 끊김'}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="mb-1 w-full px-4">
+          <GameBoard 
+            characterPosition={characterPosition}
+            size={{ width: 31, height: 21 }}
+            obstacles={obstacles}
+          />
+        </div>
+        
+        <DirectionControls onMove={handleMove} />
       </div>
-      
-      <DirectionControls onMove={handleMove} />
     </div>
   );
 } 

@@ -18,7 +18,13 @@ export default function GameBoard({ characterPosition, size, obstacles }: GameBo
 
   return (
     <div className="flex justify-center items-center p-4">
-      <div className="grid grid-cols-[repeat(30,2rem)] gap-1">
+      <div 
+        className="grid gap-1"
+        style={{
+          gridTemplateColumns: `repeat(${size.width}, 2rem)`,
+          gridTemplateRows: `repeat(${size.height}, 2rem)`
+        }}
+      >
         {grid.map((row, y) =>
           row.map((_, x) => (
             <div
@@ -31,6 +37,16 @@ export default function GameBoard({ characterPosition, size, obstacles }: GameBo
                 <Image
                   src="/images/character.png"
                   alt="Character"
+                  width={24}
+                  height={24}
+                  priority
+                  className="object-contain"
+                />
+              )}
+              {x === 30 && y === 20 && (
+                <Image
+                  src="/images/door_closed.png"
+                  alt="Door"
                   width={24}
                   height={24}
                   priority
