@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import GameBoard from '@/components/escape/GameBoard';
 import DirectionControls from '@/components/escape/DirectionControls';
+import GameInstructions from '@/components/escape/GameInstructions';
 
 export default function EscapeGame() {
   const [characterPosition, setCharacterPosition] = useState({ x: 0, y: 0 });
@@ -86,35 +87,7 @@ export default function EscapeGame() {
 
   return (
     <div className="min-h-screen bg-white flex">
-      {/* 사이드바 */}
-      <div className="w-80 bg-gray-50 p-6 border-r border-gray-200 h-screen">
-        <h2 className="text-2xl font-bold mb-4">게임 설명</h2>
-        <div className="space-y-4">
-          <div>
-            <h3 className="text-lg font-semibold mb-2">게임 목표</h3>
-            <p className="text-gray-600">방을 탈출하세요! 출구를 찾아 탈출하는 것이 목표입니다.</p>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold mb-2">조작 방법</h3>
-            <ul className="list-disc list-inside text-gray-600 space-y-1">
-              <li>↑ : 위로 이동</li>
-              <li>↓ : 아래로 이동</li>
-              <li>← : 왼쪽으로 이동</li>
-              <li>→ : 오른쪽으로 이동</li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold mb-2">게임 규칙</h3>
-            <ul className="list-disc list-inside text-gray-600 space-y-1">
-              <li>장애물을 피해서 이동하세요</li>
-              <li>다른 플레이어와 협력하세요</li>
-              <li>출구(문)에 도달하면 게임 클리어!</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <GameInstructions />
 
       {/* 메인 게임 영역 */}
       <div className="flex-1 flex flex-col items-center justify-center p-4">
