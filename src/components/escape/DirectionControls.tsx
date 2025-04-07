@@ -30,8 +30,9 @@ export default function DirectionControls({ onMove }: DirectionControlsProps) {
   }, [isCooldown]);
 
   const handleMove = (direction: 'up' | 'down' | 'left' | 'right') => {
-    if (isCooldown) return;
-    setIsCooldown(true);
+    // 테스트를 위해 쿨다운 비활성화
+    // if (isCooldown) return;
+    // setIsCooldown(true);
     onMove(direction);
   };
 
