@@ -4,14 +4,21 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useScreenStore } from '@/store/useScreenStore';
 
-export default function GameInstructions() {
+interface GameInstructionsProps {
+  isGameStarted: boolean;
+}
+
+export default function GameInstructions({ isGameStarted }: GameInstructionsProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isPortable = useScreenStore((state) => state.isPortable);
 
+  // 게임이 시작되지 않았거나, 큰 화면에서는 항상 패널을 표시
+  const shouldShowPanel = !isGameStarted || !isPortable;
+
   return (
     <>
-      {/* 기본 게임 설명 (큰 화면에서만 표시) */}
-      {!isPortable && (
+      {/* 기본 게임 설명 (게임 시작 전이거나 큰 화면에서 표시) */}
+      {shouldShowPanel && (
         <div className="w-80 bg-gray-50 p-6 border-r border-gray-200 h-screen">
           <h2 className="text-2xl font-bold mb-4 text-black">게임 설명</h2>
           <div className="space-y-4">
@@ -61,8 +68,8 @@ export default function GameInstructions() {
         </div>
       )}
 
-      {/* 작은 화면에서만 보이는 정보 버튼 */}
-      {isPortable && (
+      {/* 작은 화면에서만 보이는 정보 버튼 (게임 시작 후에만 표시) */}
+      {isPortable && isGameStarted && (
         <button
           onClick={() => setIsModalOpen(true)}
           className="fixed top-4 left-4 z-40 bg-white p-2 rounded-lg shadow-md"

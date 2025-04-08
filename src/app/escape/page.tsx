@@ -14,7 +14,7 @@ export default function EscapeGame() {
   const [isConnected, setIsConnected] = useState(false);
   const [playerCount, setPlayerCount] = useState(0);
   const [showClearModal, setShowClearModal] = useState(false);
-  const [isGameStarted, setIsGameStarted] = useState(true);
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   useEffect(() => {
     const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
@@ -102,7 +102,7 @@ export default function EscapeGame() {
 
   return (
     <div className="min-h-screen bg-white flex">
-      <GameInstructions />
+      <GameInstructions isGameStarted={isGameStarted} />
 
       {/* 메인 게임 영역 */}
       <div className="flex-1 flex flex-col items-center justify-center p-4">
