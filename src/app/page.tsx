@@ -59,8 +59,8 @@ export default function Home() {
   };
 
   const handleEscapeGameClick = () => {
-    const username = localStorage.getItem('username');
-    if (!username) {
+    const storedUsername = sessionStorage.getItem('username');
+    if (!storedUsername) {
       setShowUsernameModal(true);
     } else {
       router.push('/escape');
@@ -68,7 +68,7 @@ export default function Home() {
   };
 
   const handleUsernameSubmit = (username: string) => {
-    localStorage.setItem('username', username);
+    sessionStorage.setItem('username', username);
     setShowUsernameModal(false);
     router.push('/escape');
   };

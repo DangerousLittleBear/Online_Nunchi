@@ -14,7 +14,7 @@ export default function EscapeGame() {
   const [isConnected, setIsConnected] = useState(false);
   const [playerCount, setPlayerCount] = useState(0);
   const [showClearModal, setShowClearModal] = useState(false);
-  const [isGameStarted, setIsGameStarted] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(true);
 
   useEffect(() => {
     const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
